@@ -1,1 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Urbanist:wght@500;700;800&display=swap" rel="stylesheet">
+  <title>Wonder Wash</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="icon" type="image/x-icon" href="assets/weblogo.ico" />
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+    crossorigin="anonymous"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.css"
+  />
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    @media (max-width: 576px) {
+      #contactInfoModal .modal-dialog {
+        margin-bottom: 0;
+        padding-bottom: 1rem;
+      }
+      #contactInfoModal .modal-footer {
+        padding-bottom: 1.5rem;
+      }
+      #contactInfoModal .modal-content {
+        margin-bottom: env(safe-area-inset-bottom, 0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg custom-navbar sticky-top">
+    <div class="container">
+      <div class="d-flex align-items-center w-100">
+        <a class="brand-logo" href="#top">
+          <img src="assets/wonder-wash-logo-no-bg.png" alt="Wonder Wash" class="brand-logo" />
+        </a>
+      </div>
+    </div>
 
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#mainNav"
+      aria-controls="mainNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+        <li class="nav-item"><a class="nav-link" href="#location">Location</a></li>
+        <li class="nav-item"><a class="nav-link" href="#outlets">Outlets</a></li>
+        <li class="nav-item"><a class="nav-link" href="#outlets">Pricing</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+        <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+          <a
+            class="btn btn-primary nav-cta"
+            href="tel:+6589845116"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <i class="bi bi-telephone-fill me-2"></i>Call Us
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <main id="top">
+    <section class="hero-section">
+      <div class="container">
+        <div class="row align-items-center gy-5">
+          <div class="col-lg-6">
+            <span class="hero-pill">24 Hours | Fast Wash | Easy Support</span>
+            <h1 class="hero-title mt-3"><span class="highlight">Fast, clean, stress-free laundry.</span></h1>
+            <p class="hero-text mt-3">
+              A modern neighborhood laundromat with quick machines, clean spaces,
+              and convenient branches around Singapore.
+            </p>
+
+            <div class="d-flex flex-wrap gap-2 mt-4">
+              <span class="mini-badge">Self-service washers</span>
+              <span class="mini-badge">Quick dry machines</span>
+              <span class="mini-badge">60+ outlets</span>
+            </div>
+
+            <div class="d-flex flex-wrap gap-3 mt-4">
+              <a href="#location" class="btn btn-primary btn-lg px-4">Find Outlet</a>
+              <a href="#location" class="btn btn-outline-primary btn-lg px-4">Pricing</a>
+              <a href="#contact" class="btn btn-outline-primary btn-lg px-4">Contact Us</a>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="hero-card">
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                  <div class="small text-secondary fw-semibold">Always Available</div>
+                  <div class="fw-bold fs-3">Open 24 Hours</div>
+                </div>
+                <span class="status-badge">24 Hours</span>
+              </div>
+
+              <div class="nearest-outlet-card mb-4">
+                <div class="nearest-icon">
+                  <i class="bi bi-geo-alt-fill"></i>
+                </div>
+
+                <h4 class="nearest-title">Find Nearest Outlet</h4>
+                <p class="nearest-subtext">
+                  Tap below and we'll detect your location to suggest the closest Wonder Wash branch.
+                </p>
+
+                <button class="btn nearest-btn" id="findNearestBtn">
+                  <i class="bi bi-crosshair me-2"></i>Find My Nearest Outlet
+                </button>
+
+                <div class="nearest-result mt-3" id="nearestResult">
+                  <div class="nearest-placeholder">Nearest outlet will appear here.</div>
+                </div>
+              </div>
+
+              <div class="row g-3 text-center">
+                <div class="col-4">
+                  <div class="info-box">
+                    <strong class="d-block" id="outletCount">0</strong>
+                    <small>Outlets</small>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="info-box">
+                    <strong class="d-block">24/7</strong>
+                    <small>Open</small>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="info-box">
+                    <strong class="d-block">Fast</strong>
+                    <small>Access</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="services" class="section-padding">
+      <div class="container">
+        <div class="section-heading text-center mb-5">
+          <h2>What we offer</h2>
+          <p>
+            Reliable laundry services built for busy schedules, family loads,
+            and last-minute laundry emergencies.
+          </p>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="service-card h-100">
+              <div class="service-icon"><i class="bi bi-basket2"></i></div>
+              <h4>Self-Service Wash</h4>
+              <p>Modern machines for everyday clothing, bedding, and large family loads.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="service-card h-100">
+              <div class="service-icon"><i class="bi bi-fire"></i></div>
+              <h4>High-Speed Drying</h4>
+              <p>Quick dryers to help you get in, get fresh, and get on with your day.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="service-card h-100">
+              <div class="service-icon"><i class="bi bi-stars"></i></div>
+              <h4>Clean & Comfortable</h4>
+              <p>Bright, tidy, and easy-to-use stores with a welcoming atmosphere.</p>
+            </div>
+          </div>
+        </div>
+
+        <a href="#loyalty-card" class="loyalty-promo-bar mt-4" aria-label="Check out our loyalty card">
+          <span>Check out our loyalty card!</span>
+          <i class="bi bi-arrow-right-circle-fill"></i>
+        </a>
+      </div>
+    </section>
+
+    <section id="location" class="section-padding location-section">
+      <div class="container">
+        <div class="section-heading text-center mb-5">
+          <h2>Visit us</h2>
+          <p>Browse the full outlet map and tap any marker to view that branch.</p>
+        </div>
+
+        <div class="row g-4 align-items-stretch">
+          <div class="col-lg-5">
+            <div class="details-card h-100">
+              <div id="mapOutletDetails">
+                <h4 class="mb-3">Store details</h4>
+                <p class="text-secondary mb-4">
+                  Select an outlet marker on the map to view its branch details and open directions.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-7">
+            <div class="map-card h-100">
+              <div id="locationMap" class="location-map" aria-label="Wonder Wash Laundromat outlets map"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="loyalty-card" class="section-padding loyalty-section">
+      <div class="container">
+        <div class="loyalty-card-panel">
+          <div class="row align-items-center g-4">
+            <div class="col-lg-7">
+              <span class="loyalty-label">Loyalty Card</span>
+              <h2 class="loyalty-title mt-3">Top up and get bonus value.</h2>
+              <p class="loyalty-text mb-0">
+                Use the loyalty card instead of coins at participating outlets.
+              </p>
+            </div>
+            <div class="col-lg-5">
+              <div class="loyalty-info-box">
+                <div class="loyalty-bonus-grid">
+                  <div class="loyalty-bonus-row">
+                    <span>Top up $50</span>
+                    <strong>Bonus $10</strong>
+                  </div>
+                  <div class="loyalty-bonus-row">
+                    <span>Top up $100</span>
+                    <strong>Bonus $30</strong>
+                  </div>
+                </div>
+                <p class="loyalty-note mb-0">Available at Jalan Bukit Merah, Tampines Street 11, Yishun Avenue 11 and Block 70 Toa Payoh Lorong 4</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="outlets" class="section-padding outlets-section">
+      <div class="container">
+        <div class="section-heading text-center mb-5">
+          <h2>Our outlets</h2>
+          <p>Convenient locations across Singapore so laundry is never too far away.</p>
+        </div>
+
+        <div class="row g-4" id="outletGrid"></div>
+      </div>
+    </section>
+
+    <section id="contact" class="section-padding bg-white">
+      <div class="container">
+        <div class="contact-panel">
+          <div class="row align-items-center g-4">
+            <div class="col-lg-8">
+              <span class="contact-label">Interested?</span>
+              <h3 class="contact-title mt-2">Contact Wonder Wash</h3>
+              <p class="contact-text mb-0">
+                Tap the button to view important service notes before you call us.
+              </p>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+              <button
+                type="button"
+                class="btn contact-btn"
+                id="contactInfoBtn"
+              >
+                <i class="bi bi-telephone me-2"></i>Contact Us
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      Created by QLZ Web Development
+    </div>
+  </footer>
+
+  <nav class="bottom-menu" aria-label="Quick navigation">
+    <a class="bottom-menu-link" href="#top">
+      <i class="bi bi-house-door"></i>
+      <span>Home</span>
+    </a>
+    <a class="bottom-menu-link" href="#services">
+      <i class="bi bi-basket2"></i>
+      <span>Services</span>
+    </a>
+    <a class="bottom-menu-link" href="#location">
+      <i class="bi bi-geo-alt"></i>
+      <span>Visit</span>
+    </a>
+    <a class="bottom-menu-link" href="#outlets">
+      <i class="bi bi-grid"></i>
+      <span>Outlets</span>
+    </a>
+    <a class="bottom-menu-link" href="#contact">
+      <i class="bi bi-telephone"></i>
+      <span>Contact</span>
+    </a>
+  </nav>
+
+  <div class="modal fade" id="contactInfoModal" tabindex="-1" aria-labelledby="contactInfoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+      <div class="modal-content contact-modal">
+        <div class="modal-header contact-modal-header">
+          <div>
+            <h5 class="modal-title" id="contactInfoModalLabel">WONDER WASH SELF-SERVICE LAUNDROMAT</h5>
+            <p class="contact-modal-subtitle mb-0">Before you call us, please note:</p>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <ul class="contact-note-list">
+            <li>No dry cleaning service and ironing service.</li>
+            <li>No pickup and delivery.</li>
+            <li>All our outlets are opened 24 hours every day (public holidays included).</li>
+            <li>No need to bring detergent unless you want to add your own detergent.</li>
+            <li>There are coin changers in every of our outlets.</li>
+            <li>No washing and drying of carpets, shoes and pet garments.</li>
+          </ul>
+        </div>
+        <div class="modal-footer contact-modal-footer">
+          <button type="button" class="btn btn-primary" id="contactConfirmBtn" data-bs-dismiss="modal">I Understand</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a
+    class="floating-whatsapp"
+    href="tel:+80845116"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Call us"
+  >
+    <i class="bi bi-telephone-fill"></i>
+    <span>Contact Us</span>
+  </a>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script type="module" src="script.js"></script>
+</body>
+</html>
