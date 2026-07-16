@@ -1,22 +1,4 @@
-
-                        <!DOCTYPE html>
-                        <html lang="en">
-                        <head>
-                            <meta charset="UTF-8">
-                            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <style>
-                body {
-                  background-color: white; /* Ensure the iframe has a white background */
-                }
-
-                
-              </style>
-                        </head>
-                        <body>
-                            
-
-              <script>
-                              import { outlets as rawOutlets } from './outlets.js';
+import { outlets as rawOutlets } from './outlets.js';
 import { cloneDefaultPricing, customPricingByOutlet } from './pricing.js';
 
 const regionColors = {
@@ -568,15 +550,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     contactConfirmBtn?.addEventListener('click', () => {
       window.open(
-        'tel:+6597862038',
-        '_self'
+        'https://wa.me/6597862038?text=Hi%2C%20I%20want%20to%20ask%20about%20your%20laundromat.',
+        '_blank',
+        'noopener,noreferrer'
       );
     });
   }
-});
-
-
-              </script>
-                        </body>
-                        </html>
-                    
+});   
