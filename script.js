@@ -549,11 +549,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     contactConfirmBtn?.addEventListener('click', () => {
-      window.open(
-        'https://wa.me/6597862038?text=Hi%2C%20I%20want%20to%20ask%20about%20your%20laundromat.',
-        '_blank',
-        'noopener,noreferrer'
-      );
-    });
+  window.location.href = 'tel:+6597862038';
+});
   }
 });   
